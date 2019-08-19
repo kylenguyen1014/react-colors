@@ -21,7 +21,9 @@ import MailIcon from '@material-ui/icons/Mail';
 import { ChromePicker } from 'react-color';
 import { Button } from '@material-ui/core';
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
-import DraggableBox from './DraggableBox';
+import {SortableContainer, SortableElement} from 'react-sortable-hoc';
+import {arrayMove} from 'react-sortable-hoc';
+import DraggableList from './DraggableList';
 
 const drawerWidth = 400;
 
@@ -156,6 +158,13 @@ class NewPaletteForm extends Component {
     deleteColor(name){
       this.setState({colors: this.state.colors.filter(color => color.name !== name)})
     }
+
+    onSortEnd = ({oldIndex, newIndex}) => {
+      this.setState(({colors}) => ({
+        colors: arrayMove(colors, oldIndex, newIndex),
+      }));
+    };
+
     render() { 
         const {classes, theme} = this.props;
         const { open, currentColor, newName, colors } = this.state;
@@ -184,7 +193,7 @@ class NewPaletteForm extends Component {
                     Create A Palette
                   </Typography>
                   <div className={classes.buttonGroup}>
-                    <Button variant='contained' color='secondary' onClick={() => this.props.history.goBack()}>
+                    <Button variant='contained' color='secondary' onClick={() => this.props.history.push('/')}>
                             GO BACK
                     </Button>
                     <Button variant='contained' color='primary' onClick={this.handleSavePalette}>
@@ -250,9 +259,16 @@ class NewPaletteForm extends Component {
               >
                 <div className={classes.drawerHeader} />
                 <div className={classes.main}>
-                    {colors.map(color => {
-                        return <DraggableBox background={color.color} name={color.name} key={color.name} deleteColor={this.deleteColor}/>
-                    })}
+                    {/* {colors.map((color,index) => {
+                        return <DraggableBox index={index} background={color.color} name={color.name} key={color.name} deleteColor={this.deleteColor}/>
+                    })} */}
+                    <DraggableList 
+                      colors={this.state.colors} 
+                      deleteColor={this.deleteColor} 
+                      axis='xy' 
+                      onSortEnd={this.onSortEnd}
+                      distance={20}
+                    />
                 </div>
                 
               </main>
