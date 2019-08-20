@@ -7,21 +7,22 @@ import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-
 import Typography from '@material-ui/core/Typography';
-
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-
 import { ChromePicker } from 'react-color';
 import { Button } from '@material-ui/core';
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
-
 import {arrayMove} from 'react-sortable-hoc';
 import DraggableList from './DraggableList';
-
-
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import 'emoji-mart/css/emoji-mart.css';
+import { Picker } from 'emoji-mart';
 
 class NewPaletteForm extends Component {
     constructor(props) {
@@ -30,8 +31,12 @@ class NewPaletteForm extends Component {
         this.state = {
              open: false,
              currentColor: 'purple',
-             newName:'',
+             newColorName:'',
              colors : [],
+             dialogOpen: false,
+             emojiOpen: false,
+             emoji: '',
+             newPaletteName: ''
         }
         this.handleDrawerOpen = this.handleDrawerOpen.bind(this);
         this.handleDrawerClose = this.handleDrawerClose.bind(this);
@@ -41,7 +46,11 @@ class NewPaletteForm extends Component {
         this.handleSavePalette = this.handleSavePalette.bind(this);
         this.deleteColor = this.deleteColor.bind(this);
         this.addRandomColor = this.addRandomColor.bind(this);
-        this.clearPalette = this.clearPalette.bind(this)
+        this.clearPalette = this.clearPalette.bind(this);
+        this.toogleDialog = this.toogleDialog.bind(this);
+        this.openEmoji = this.openEmoji.bind(this);
+        this.closeEmoji = this.closeEmoji.bind(this);
+        this.saveEmoji = this.saveEmoji.bind(this);
     }
 
     componentDidMount() {
@@ -52,6 +61,9 @@ class NewPaletteForm extends Component {
         // custom rule will have name 'isColorUnique'
         ValidatorForm.addValidationRule('isColorUnique', () => {
             return this.state.colors.every(color => color.color !== this.state.currentColor)
+        });
+        ValidatorForm.addValidationRule('isPaletteNameUnique', () => {
+            return this.props.palettes.every(palette => palette.paletteName.toLowerCase() !== this.state.newPaletteName.toLowerCase())
         });
     }
     addRandomColor(){
@@ -78,22 +90,21 @@ class NewPaletteForm extends Component {
     }
     handleSubmit(){
       const newColor = {
-          name: this.state.newName,
+          name: this.state.newColorName,
           color: this.state.currentColor
       }
       this.setState({colors: [...this.state.colors, newColor], newName: ''});
     }
     handleNameChange(evt){
-        this.setState({newName: evt.target.value})
+        this.setState({[evt.target.name]: evt.target.value})
     }
 
     handleSavePalette(){
-        const newName = "New Palette Colors";
+        const newPaletteName = this.state.newPaletteName;
         const newPalette = {
-            paletteName: newName,
-            id: newName.toLowerCase().replace(/ /g, '-'),
-            emoji: "🎨",
-            dialog: '',
+            paletteName: newPaletteName,
+            id: newPaletteName.toLowerCase().replace(/ /g, '-'),
+            emoji: this.state.emoji,
             colors: this.state.colors
         };
         console.log(newPalette);
@@ -107,6 +118,19 @@ class NewPaletteForm extends Component {
       this.setState({colors : []});
     }
 
+    toogleDialog(){
+      this.setState({dialogOpen: !this.state.dialogOpen})
+    }
+    openEmoji(){
+      this.setState({dialogOpen: false, emojiOpen: true})
+    }
+    closeEmoji(){
+      this.setState({emojiOpen: false})
+    }
+    saveEmoji(emoji){
+      this.setState({emoji: emoji.native});
+    }
+
     onSortEnd = ({oldIndex, newIndex}) => {
       this.setState(({colors}) => ({
         colors: arrayMove(colors, oldIndex, newIndex),
@@ -116,7 +140,7 @@ class NewPaletteForm extends Component {
 
     render() { 
         const {classes} = this.props;
-        const { open, currentColor, newName, colors } = this.state;
+        const { open, currentColor, newColorName, colors, dialogOpen, emojiOpen ,newPaletteName } = this.state;
         return (
             <div className={classes.root}>
               <CssBaseline />
@@ -145,9 +169,47 @@ class NewPaletteForm extends Component {
                     <Button variant='contained' color='secondary' onClick={() => this.props.history.push('/')}>
                             GO BACK
                     </Button>
-                    <Button variant='contained' color='primary' onClick={this.handleSavePalette}>
+                    <Button variant='contained' color='primary' onClick={this.toogleDialog}>
                             SAVE PALETTE
                     </Button>
+                      <Dialog open={dialogOpen} onClose={this.toogleDialog} aria-labelledby='palette-name-title'>
+                        <DialogTitle id='palette-name-title'>Palette Name</DialogTitle>
+                        <ValidatorForm onSubmit={this.openEmoji}>
+                          <DialogContent>
+                            <DialogContentText>
+                              Enter a name for the new palette
+                            </DialogContentText>
+                            <TextValidator 
+                              autoFocus
+                              label="Palette's name"
+                              onChange={this.handleNameChange}
+                              name='newPaletteName'
+                              value={newPaletteName}
+                              validators={['required','isPaletteNameUnique']}
+                              errorMessages={['This field is required','This name has been taken']}
+                            />
+                          </DialogContent>
+                          <DialogActions>
+                            <Button onClick={this.toogleDialog} color="primary">
+                              Cancel
+                            </Button>
+                            <Button  color="primary" type='submit' >
+                              Continue
+                            </Button>
+                          </DialogActions>
+                        </ValidatorForm>
+                      </Dialog>
+                      <Dialog open={emojiOpen} onClose={this.closeEmoji}>
+                        <DialogTitle id='palette-name-title'>Pick an Emoji</DialogTitle>
+                        <DialogContent>
+                          <Picker set='emojione' onSelect={this.saveEmoji}/>
+                        </DialogContent>
+                        <DialogActions>
+                          <Button onClick={this.handleSavePalette} color="primary" type='submit'>
+                              Finish 
+                          </Button>
+                        </DialogActions>
+                      </Dialog>
                   </div>
                 </Toolbar>
               </AppBar>
@@ -185,8 +247,8 @@ class NewPaletteForm extends Component {
                     <TextValidator
                         label='Color Name'
                         onChange={this.handleNameChange}
-                        name='newName'
-                        value={newName}
+                        name='newColorName'
+                        value={newColorName}
                         validators={['required', 'isColorUnique', 'isColorNameUnique']}
                         errorMessages={['This field is required', 'This color has been taken','Color name must be unique']}
                     />
