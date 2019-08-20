@@ -16,7 +16,7 @@ class PaletteList extends Component {
         this.props.history.push(`/palette/${id}`);
     }
     render() {
-        const { classes } = this.props;
+        const { classes, deletePalette, palettes } = this.props;
         return (
             <div className={classes.root}>
                 <div className={classes.main}>
@@ -26,8 +26,8 @@ class PaletteList extends Component {
                     </div>
                     
                     <div className={classes.container}>
-                        {this.props.palettes.map(palette => {
-                            return  <MiniPalette key={palette.id} id={palette.id} palette={palette} goToPalette={this.goToPalette}/>;                                          
+                        {palettes.map(palette => {
+                            return  <MiniPalette key={palette.id} id={palette.id} palette={palette} goToPalette={this.goToPalette} handleDeletePalette={deletePalette}/>;                                          
                         })}
                     </div>
           

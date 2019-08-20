@@ -2,7 +2,7 @@
 import { withStyles } from '@material-ui/core/styles';
 import { IconButton } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
-import {SortableContainer, SortableElement} from 'react-sortable-hoc';
+import {SortableElement} from 'react-sortable-hoc';
 
 const styles = {
     root: {

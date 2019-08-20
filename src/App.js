@@ -3,7 +3,7 @@ import Palette from './Palette';
 import PaletteList from './PaletteList';
 import seedColors from './seedColors';
 import generateColors from './colorHelpers';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import SingleColorPalette from './SingleColorPalette';
 import NewPaletteForm from './NewPaletteForm';
 
@@ -11,18 +11,27 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {  
-      palette: seedColors,
+      palettes: JSON.parse(localStorage.getItem('palettes')) || seedColors,
     }
     this.savePalette = this.savePalette.bind(this);
+    this.deletePalette = this.deletePalette.bind(this);
+  }
+  componentDidUpdate(prevProps, prevState){
+    if (this.state.palettes !== prevState.palettes){
+      localStorage.setItem('palettes', JSON.stringify(this.state.palettes))
+    }
+  }
+  deletePalette(id){
+    this.setState({palettes: this.state.palettes.filter(palette => palette.id !== id)})
   }
   fintPalette(id){
-    return this.state.palette.find(palette => {
+    return this.state.palettes.find(palette => {
       return palette.id === id;
     })
   }
   savePalette(newPalette){
     this.setState(st => {
-      return {palette: [...st.palette, newPalette]}
+      return {palettes: [...st.palettes, newPalette]}
     })
   }
   render() { 
@@ -32,7 +41,7 @@ class App extends Component {
         <Switch>
           <Route 
             exact path='/palette/new' 
-            render={(routeProps) => <NewPaletteForm {...routeProps} palettes={this.state.palette} savePalette={this.savePalette}/>}
+            render={(routeProps) => <NewPaletteForm {...routeProps} palettes={this.state.palettes} savePalette={this.savePalette}/>}
           />
           <Route 
             exact path='/palette/:paletteId/:colorId' 
@@ -40,13 +49,15 @@ class App extends Component {
           />
           <Route 
             exact path='/' 
-            render={(routeProps)=> <PaletteList palettes={this.state.palette} {...routeProps}/>} 
+            render={(routeProps)=> <PaletteList palettes={this.state.palettes} {...routeProps} deletePalette={this.deletePalette}/>} 
             />
           <Route 
             exact path='/palette/:id' 
             render={(routeProps) => <Palette {...routeProps} palette={generateColors(this.fintPalette(routeProps.match.params.id))}/>}
           />
-         
+          <Route 
+            render={()=> <Redirect to='/'/> } 
+          />
         </Switch>
     </div>
     );
