@@ -1,13 +1,16 @@
 import down from '../SizeHelper';
-
+import bg from './bg.svg';
 export default {
     root: {  
-        background: 'linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(29,77,189,1) 0%, rgba(29,99,159,1) 56%, rgba(0,212,255,1) 100%)',
+        // background: 'linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(29,77,189,1) 0%, rgba(29,99,159,1) 56%, rgba(0,212,255,1) 100%)',
         marginTop: '0',
         padding: '0',
         backgroundSize: 'cover',
         height: '100vh',
         overflow: 'auto',
+        backgroundColor: '#5ac0ff',
+        backgroundImage: `url(${bg})`
+        /* background by SVGBackgrounds.com */
     },
     main: {
         // height: '90%',
