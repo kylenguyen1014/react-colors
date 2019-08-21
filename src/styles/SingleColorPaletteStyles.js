@@ -1,9 +1,12 @@
+import down from '../SizeHelper';
+
 export default {
     
     SinglePalleteColors: {
         height: '90%',
         display: 'flex',
         flexWrap: 'wrap',
+        
     },
     SinglePalette: {
         width: '100%',
@@ -22,6 +25,18 @@ export default {
             padding: '3px 10px',
             color: 'white',
             backgroundColor: 'rgba(255, 255, 255, 0.3)',
-        }
+        },
+        [down('lg')]:{
+            height: '33.333%',
+            width: '75%'
+        },
+        [down('md')]:{
+            height: '20%',
+            width: '50%'
+        },
+        [down('xs')]:{
+            height: '10%',
+            width: '100%'
+        },
     },
 }

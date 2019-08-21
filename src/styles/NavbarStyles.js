@@ -1,3 +1,5 @@
+import down from '../SizeHelper';
+
 export default {
     Navbar: {
         display: 'flex',
@@ -23,6 +25,12 @@ export default {
         width: '340px',
         margin: '0 10px',
         display: 'inline-block',
+        [down('sm')]:{
+            width: '160px'
+        },
+        [down('xs')]:{
+            width: '70px'
+        },
     },
     NavbarSelect: {
         marginLeft: 'auto',

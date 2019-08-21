@@ -1,3 +1,5 @@
+import down from '../SizeHelper';
+
 export default {
     root: {  
         background: 'linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(29,77,189,1) 0%, rgba(29,99,159,1) 56%, rgba(0,212,255,1) 100%)',
@@ -12,19 +14,30 @@ export default {
         width: '50%',
         display: 'flex',
         flexDirection: 'column',
-        // '& h1' : {
-        //     // alignSelf: 'flex-start',
-        //     marginTop: '0',
-        //     padding: '1.5rem 0'
-        // },
         margin: '0 auto',
+        [down('lg')]:{
+            width: '70%'
+        },
+        [down('md')]:{
+            width: '80%'
+        },
+        [down('xs')]:{
+            width: '70%'
+        },
 
     },
     container: {
         display: 'grid',
         gridTemplateColumns: 'repeat(3, 30%)', 
         gridGap: '0 5%',
-        marginTop: '-2rem'
+        marginTop: '-2rem',
+        [down('md')]:{
+            gridTemplateColumns: 'repeat(2, 50%)',
+            gridGap: '0 3%',
+        },
+        [down('xs')]:{
+            gridTemplateColumns: 'repeat(1, 100%)',
+        },
     },
     header: {
         float: 'right',

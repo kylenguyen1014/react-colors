@@ -1,3 +1,5 @@
+import down from '../SizeHelper';
+
 const drawerWidth = 400;
 
 const styles = theme => ({
@@ -27,9 +29,11 @@ const styles = theme => ({
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
+    
   },
   drawerPaper: {
     width: drawerWidth,
+    
   },
   drawerHeader: {
     display: 'flex',
@@ -59,10 +63,26 @@ const styles = theme => ({
 
   },
   buttonGroup: {
-      marginLeft: 'auto',
-      '& button': {
-          margin: '0 0.5rem',
-      }
+    marginLeft: 'auto',
+    '& button': {
+        margin: '0.2rem',
+    },
+    //   [down('lg')]:{
+        
+    // },
+    //   [down('xs')]:{
+    //     '& button': {
+    //       margin : '0.2rem'
+    //     }
+    // },
+  },
+  addColor: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    // padding: 'auto 0'
   }
 });
 

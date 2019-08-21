@@ -34,7 +34,7 @@ class ColorBox extends Component {
                     <div >
                         <span className={classes.ColorBoxName}>{name}</span>            
                         <button className={classes.CopyButton}>
-                        Copy
+                            Copy
                         </button>
                     </div>
                     {showingFullShades && (

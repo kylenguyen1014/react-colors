@@ -13,6 +13,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { ChromePicker } from 'react-color';
 import { Button } from '@material-ui/core';
+import Divider from '@material-ui/core/Divider';
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 import {arrayMove} from 'react-sortable-hoc';
 import DraggableList from './DraggableList';
@@ -227,42 +228,47 @@ class NewPaletteForm extends Component {
                     <ChevronLeftIcon /> 
                   </IconButton>
                 </div>
-                {/* <Divider /> */}
-                <Typography variant='h5' >
-                    Design Your Palette
-                </Typography>
-                <div>
-                    <Button variant='contained' color='secondary' onClick={this.clearPalette}>
-                        CLREAT PALETTE
-                    </Button>
-                    <Button variant='contained' color='primary' onClick={this.addRandomColor} disabled={colors.length >= 20}>
-                        RANDOM COLOR
-                    </Button>
-                </div>                
-                <ChromePicker 
-                    color={currentColor}
-                    onChangeComplete={this.handleColorChange}
-                />
-                <ValidatorForm onSubmit={this.handleSubmit} instantValidate={false}>
-                    <TextValidator
-                        label='Color Name'
-                        onChange={this.handleNameChange}
-                        name='newColorName'
-                        value={newColorName}
-                        validators={['required', 'isColorUnique', 'isColorNameUnique']}
-                        errorMessages={['This field is required', 'This color has been taken','Color name must be unique']}
-                    />
-                    <Button 
-                        style={{backgroundColor : currentColor}} 
-                        variant='contained'
-                        color='primary'
-                        type='submit'
-                        disabled={colors.length >= 20}
-                        >
-                        ADD COLOR
-                    </Button>
-                </ValidatorForm>
-                
+                <Divider />
+                <div className={classes.addColor}>
+                  <Typography variant='h4' >
+                      Design Your Palette
+                  </Typography>
+                  <div>
+                      <Button variant='contained' color='secondary' onClick={this.clearPalette}>
+                          CLREAT PALETTE
+                      </Button>
+                      <Button variant='contained' color='primary' onClick={this.addRandomColor} disabled={colors.length >= 20}>
+                          RANDOM COLOR
+                      </Button>
+                  </div>                
+                  <ChromePicker 
+                      width={'360px'}
+                      color={currentColor}
+                      onChangeComplete={this.handleColorChange}
+                  />
+                  <ValidatorForm onSubmit={this.handleSubmit} instantValidate={false}>
+                      <TextValidator
+                          fullWidth
+                          label='Color Name'
+                          onChange={this.handleNameChange}
+                          name='newColorName'
+                          value={newColorName}
+                          validators={['required', 'isColorUnique', 'isColorNameUnique']}
+                          errorMessages={['This field is required', 'This color has been taken','Color name must be unique']}
+                      />
+                      <Button 
+                          fullWidth 
+                          size='large'
+                          style={{backgroundColor : currentColor}} 
+                          variant='contained'
+                          color='primary'
+                          type='submit'
+                          disabled={colors.length >= 20}
+                          >
+                          ADD COLOR
+                      </Button>
+                  </ValidatorForm>
+                </div>
               </Drawer>
               <main
                 className={clsx(classes.content, {

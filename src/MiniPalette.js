@@ -5,8 +5,6 @@ import DeleteIcon from '@material-ui/icons/Delete';
 const styles = {
     main: {
         backgroundColor: 'white',
-        // display: 'flex',
-        // flexDirection: 'column',
         margin: '1rem 0',
         borderRadius: '5px',
         transition: 'all  0.3s linear',
@@ -23,9 +21,8 @@ const styles = {
     container: {
         backgroundColor: '#d7dee1',
         height: '120px',
-        // width:'100%',
-        display: 'flex',
-        flexWrap: 'wrap',
+        // display: 'flex',
+        // flexWrap: 'wrap',
         margin: '5px',
         position: 'relative',
         overflow: 'hidden',
@@ -36,6 +33,8 @@ const styles = {
         width: '20%',
         height: '25%',
         position: 'relative',
+        display: 'inline-block',
+        margin: '-2px 0',
     },
     title: {
         display: 'flex',

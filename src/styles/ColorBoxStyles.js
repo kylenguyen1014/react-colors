@@ -1,16 +1,29 @@
 import chroma from 'chroma-js';
-
+import down from '../SizeHelper';
 export default{
     ColorBox: {
         display: 'inline-block',
         width: '20%',
         height: props => props.showingFullShades ? '25%' : '50%',
-        margin: '-2px 0',
+        // margin: '-2px 0',
         position: 'relative',
         '&:hover button' : {
             opacity: '1',
             transition: '0.3s ease-in',
-        }
+        },
+        
+        [down('lg')]:{
+            width: '25%',
+            height: props => props.showingFullShades ? '20%' : '33.333%'
+        },
+        [down('md')]:{
+            width: '50%',
+            height: props => props.showingFullShades ? '10%' : '20%'
+        },
+        [down('xs')]:{
+            width: '100%',
+            height: props => props.showingFullShades ? '5%' : '10%',
+        },
     },
     showMore: {
         position: 'absolute',
@@ -20,7 +33,7 @@ export default{
             props => chroma(props.background).luminance() >= 0.5 ? 
             'rgba(0, 0, 0, 0.3)' :
             'rgba(255, 255, 255, 0.3)',
-        padding: '3px 5px',
+        padding: '2px 5px',
         color: props => chroma(props.background).luminance() >= 0.5 ? 'black' : 'white',
     },
     ColorBoxName: {
@@ -61,7 +74,7 @@ export default{
     },
     show: {
         opacity: '1',
-        transform: 'scale(10)',
+        transform: 'scale(50)',
         zIndex: '10',
     },
     displayMsg: {
@@ -70,7 +83,7 @@ export default{
         left: '0',
         bottom: '50%',
         opacity: '1',
-        transition: 'all 0.4s 0.3s ease-in',
+        transition: 'all 0.5s 0.3s ease-in',
         zIndex: '20',
         textAlign: 'center',
         '& h1': {
