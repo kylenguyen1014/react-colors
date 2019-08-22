@@ -1,4 +1,4 @@
-import down from '../SizeHelper';
+// import down from '../SizeHelper';
 
 const drawerWidth = 400;
 
@@ -67,14 +67,6 @@ const styles = theme => ({
     '& button': {
         margin: '0.2rem',
     },
-    //   [down('lg')]:{
-        
-    // },
-    //   [down('xs')]:{
-    //     '& button': {
-    //       margin : '0.2rem'
-    //     }
-    // },
   },
   addColor: {
     height: '100%',

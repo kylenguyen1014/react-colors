@@ -108,7 +108,7 @@ class NewPaletteForm extends Component {
             emoji: this.state.emoji,
             colors: this.state.colors
         };
-        console.log(newPalette);
+        this.setState({emojiOpen: false});
         this.props.savePalette(newPalette);
         this.props.history.push('/');
     }

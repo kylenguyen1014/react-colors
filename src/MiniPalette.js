@@ -68,15 +68,19 @@ class MiniPalette extends Component {
     constructor(props) {
         super(props);
         this.state = {}
-        this.handleDelete = this.handleDelete.bind(this)
+        // this.handleDelete = this.handleDelete.bind(this);
+        this.handleOpenDialog = this.handleOpenDialog.bind(this);
       }
 
-    handleDelete(e){
-        this.props.handleDeletePalette(this.props.id);
-        e.stopPropagation();
+    // handleDelete(e){
+    //     this.props.handleDeletePalette(this.props.id);
+    //     e.stopPropagation();
         
+    // }
+    handleOpenDialog(e){
+        this.props.openDialog(this.props.id);
+        e.stopPropagation();
     }
-
     render() {
         const { classes, palette, id, goToPalette } = this.props;
         
@@ -85,7 +89,7 @@ class MiniPalette extends Component {
         });
         return(       
             <div className={classes.main} onClick={() => goToPalette(id)}>
-                <div className={classes.delete}  onClick={this.handleDelete}>
+                <div className={classes.delete}  onClick={this.handleOpenDialog}>
                     <DeleteIcon className={classes.deleteIcon}/>           
                 </div>
                 <div className={classes.container}>

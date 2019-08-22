@@ -1,6 +1,16 @@
 import down from '../SizeHelper';
 import bg from './bg.svg';
 export default {
+    '@global':{
+        '.fade-exit':{
+            opacity: '1'
+        },
+        '.fade-exit-active':{
+            opacity: '0',
+            transition: 'opacity 0.5s ease-out'
+        },
+        
+    },
     root: {  
         // background: 'linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(29,77,189,1) 0%, rgba(29,99,159,1) 56%, rgba(0,212,255,1) 100%)',
         marginTop: '0',
